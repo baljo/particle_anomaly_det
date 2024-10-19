@@ -24,15 +24,25 @@ The end solution is demonstrated in the video below. The first half of the video
 
 # Table of Contents
 
-This tutorial is covering quite a lot of ground, the main steps are:
+As this tutorial is covering quite a lot of ground, the below table of contents should make it easier to grasp:
 
     1. Setting up the hardware
         1.1 Bill of Materials
+        1.2 Assembly
+        1.3 Activate the Photon 2
 
-2. Building a machine learning model in Edge Impulse
-3. Compiling the Particle firmware with Particle Workbench and Docker
-4. Setting up integrations to Pushover and Losant in the Particle console
-5. Building a dashboard in Losant
+    2. Building a machine learning model in Edge Impulse
+        2.1 Get up and running
+        2.2 Notes for this project
+        2.3 Deploy a Particle library
+
+    3. Compiling the Particle firmware with Particle Workbench and Docker
+        3.1 Install the Particle Workbench
+        3.2 Import and compile the application
+        3.3 Install and compile using Docker
+        
+    4. Setting up integrations to Pushover and Losant in the Particle console
+    5. Building a dashboard in Losant
 
 # 1. Hardware
 ## 1.1 Bill of Materials
@@ -84,22 +94,23 @@ A tip, the text on both the accelerometer and Photon 2 is quite small, why not t
 
 ![](/images/accel_20_comp.jpg)
 
+## 1.3 Activate the Photon 2
 
-
-# Edge Impulse
-
-The earlier mentioned [tutorial](https://docs.edgeimpulse.com/docs/edge-ai-hardware/mcu/particle-photon-2) uses both an accelerometer as well as a microphone, but if you just want to connect the accelerometer you can connect like this:
-
-
-Important! You must register your P2 on your Particle account before continuing
+**Important!** You must register your P2 on your Particle account before continuing
 
 Plug your P2 into your computer. Head to https://docs.particle.io/device-setup/ and follow the instructions to register it.
 
-## Get up and running ##
+# 2. Building a machine learning model in Edge Impulse
+
+This step consists of collecting vibration data from a device you want to monitor, build a machine learning (ML) model, and finally deploying it to the edge device of your choice, in this case Particle Photon 2. 
+
+## 2.1 Get up and running ##
 
 This [tutorial](https://docs.edgeimpulse.com/docs/edge-ai-hardware/mcu/particle-photon-2) is covering the basics of how to get machine learning running with Photon 2. If Edge Impulse is new to you, I suggest you start with following the tutorial steps, and to replicate this particular project, follow these [steps](https://docs.edgeimpulse.com/docs/tutorials/end-to-end-tutorials/continuous-motion-recognition). If you are eagerly waiting for your Particle Photon 2 or accelerometer to arrive at your door, feel free to use your [mobile phone](https://docs.edgeimpulse.com/docs/edge-ai-hardware/using-your-mobile-phone) in the meantime!
 
-## Notes for this project ##
+Note: The above mentioned tutorial is also using a microphone, and the accelerometer is plugged onto the breadboard, but otherwise the concept is the same. 
+
+## 2.2 Notes for this project ##
 
 For this conveyor belt project, I collected data for various normal conditions:
 
@@ -120,33 +131,32 @@ When creating the impulse, I used a window size of 1000 ms and stride of 200 ms.
 
 ![](/images/ei_10.jpg)
 
+## 2.3 Deploy a Particle library
+
+When deploying a ML model to a Particle device, you have two choices:
+- As a general C/C++ library: A portable C++ library with no external dependencies, which can be compiled with any modern C++ compiler.
+- As a Particle library: Generates a Particle library that can be imported into a Device OS app to run on Particle development boards, SoMs, and gateways.
+
+Unless you are a seasoned C/C++-programmer, you should choose the Particle library option.
+
+![](/images/ei_15.jpg)
 
 
-## To use in Particle Workbench
+# 3. Compiling the Particle firmware with Particle Workbench and Docker
 
-1. In Workbench, select **Particle: Import Project** and select the `project.properties` file in the directory that you just downloaded and extracted.
+## 3.1 Install the Particle Workbench
 
-1. Use **Particle: Configure Project for Device** and select **deviceOS@5.3.2** and choose a target. (e.g. **P2** , this option is also used for the Photon 2).
+Install the Particle Workbench by [following these instructions](https://docs.particle.io/workbench/). I recommend simply installing the [VS Code extension](https://docs.particle.io/quickstart/workbench/#workbench-extension-installation).(
 
-1. Compile with  **Particle: Compile application (local)**
+## 3.2 Import and compile the application
 
-1. Flash with **Particle: Flash application (local)**
+Follow these [steps](https://docs.edgeimpulse.com/docs/run-inference/running-your-impulse-particle). Especially on a Windows-computer, you might get an error message `Argument list too long`. In that case you should install and use Docker as shown later.
+
+## 3.3 Install and compile using Docker
+
+Follow these [steps](https://docs.particle.io/getting-started/machine-learning/doorbell/#building-using-docker).
+
+As an example of the command I used in the terminal window after above steps were completed: `docker run --name=edge-compile4 -v C:\Users\...\Dropbox\Github\Particle\particle_anomaly_det:/input -v C:\Users\...\Dropbox\Github\Particle\particle_anomaly_det:/output -e PLATFORM_ID=32 particle/buildpack-particle-firmware:5.9.0-p2`
 
 
-> At this time you cannot use the **Particle: Cloud Compile** or **Particle: Cloud Flash** options; local compilation is required.
 
-## Examples
-
-`src/main.cpp` already contains one of the examples found in `examples/` directory.  If
-you wish to use a different example, copy the `main.cpp` file from the example
-in the `examples/` directory and replace `src/main.cpp`.
-
-You may need to install additional libraries using **Particle: Install Library**
-for some examples. See the example source for details.
-
-### static_buffer
-
-The `static_buffer` example can be used to feed raw features directly for
-inference on target.  Copy raw features from the **Live classifiaction** page of
-your project into the `features` array. For more information see
-https://docs.edgeimpulse.com/docs/deployment/running-your-impulse-particle.
