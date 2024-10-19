@@ -1,7 +1,12 @@
 # Exported Edge Impulse's Particle Library for PhotAD2_inferencing
 
 
+| a | b | c |
+| --- | --- | --- |
+| 1 | 2 | 3 |
 
+
+![](/images/demo_800x370.gif)
 
 # Edge Impulse
 
@@ -12,10 +17,15 @@ This [tutorial](https://docs.edgeimpulse.com/docs/edge-ai-hardware/mcu/particle-
 ## Notes for this project ##
 
 For this conveyor belt project, I collected data for various normal conditions:
-- belt idle, not moving
-- belt speed slow: 10 mm/s
-- belt speed medium: 20 mm/s
-- belt speed fast: 30 mm/s
+
+| Belt moving | Speed (mm/s) | Load             |
+| ---         | ---          | ---              |
+| idle        | -            | -                |
+| slow        | 10           | with and without |
+| medium      | 20           | with and without |
+| fast        | 30           | with and without |
+
+
 
 In above cases, I collected data both when the belt was under load, and when it wasn't. As I was only interested in anomaly detection, and not classification, I did not classify the different speeds, that's why the only class I used is `normal`.
 
@@ -33,14 +43,14 @@ The earlier mentioned [tutorial](https://docs.edgeimpulse.com/docs/edge-ai-hardw
 
 
 
-| Breakout	| Color	| Connect To	| Details | 
-| ------| -----| ---------| ------------------| 
-| INT1	| 	| Any	| Any available GPIO if using interrupt 1 (optional)| 
-| INT2	| 	| Any	| Any available GPIO if using interrupt 2 (optional)| 
-| CS	| Yellow	| Any	| SPI Chip Select. Use any available GPIO (required)| 
+| Breakout	    | Color	| Connect To	| Details | 
+| ------| ----- | ------| ------------------| 
+| INT1	| 	    | Any	| Any available GPIO if using interrupt 1 (optional)| 
+| INT2	| 	    | Any	| Any available GPIO if using interrupt 2 (optional)| 
+| CS	| Yellow| Any	| SPI Chip Select. Use any available GPIO (required)| 
 | SDO	| Green	| MISO	| SPI MISO (required)| 
 | SDI	| Blue	| MOSI	| SPI MOSI (required)| 
-| SCL	| Orange	| SCK	| SPI SDK (required). Not I2C SCL (D1)!| 
+| SCL	| Orange| SCK	| SPI SDK (required). Not I2C SCL (D1)!| 
 | GND	| Black	| GND	| Ground| 
 | VIN	| Red	| V3	| 3.3V power| 
 
