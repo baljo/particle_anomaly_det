@@ -1,5 +1,7 @@
 # Detecting Anomalies in a Conveyor Belt with Photon 2 and Edge Impulse
 
+![](/images/conv_010.jpg)
+
 ## What is Anomaly Detection?
 
 As the term suggests, Anomaly Detection (AD) is about detecting abnormal behavior in different scenarios, like fraud detection, quality control, early detection of failure etc. In addition to machine learning (ML), there are scores of different "traditional" AD methods: statistical methods, rule-based systems, time series analysis, pattern recognition, etc.
@@ -8,14 +10,18 @@ As the term suggests, Anomaly Detection (AD) is about detecting abnormal behavio
 
 This tutorial will show how you can perform anomaly detection in a moving conveyor belt with the Photon 2 and Edge Impulse. In addition, it demonstrates how you can build Particle integrations to notification services, and to an external IoT platform for graphical dashboards. 
 
+![](/images/demo_800x370.gif)
 
+# Bill of Materials
+
+- [Photon 2](https://store.particle.io/products/photon-2), or any other Particle device with SPI 
 
 | a | b | c |
 | --- | --- | --- |
 | 1 | 2 | 3 |
 
 
-![](/images/demo_800x370.gif)
+
 
 # Edge Impulse
 
