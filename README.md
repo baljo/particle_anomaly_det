@@ -2,28 +2,98 @@
 
 ![](/images/conv_010.jpg)
 
+# Problem Statement
+
+**????????????????**
+
 ## What is Anomaly Detection?
 
 As the term suggests, Anomaly Detection (AD) is about detecting abnormal behavior in different scenarios, like fraud detection, quality control, early detection of failure etc. In addition to machine learning (ML), there are scores of different "traditional" AD methods: statistical methods, rule-based systems, time series analysis, pattern recognition, etc.
 
 ## This tutorial
 
-This tutorial will show how you can perform anomaly detection in a moving conveyor belt with the Photon 2 and Edge Impulse. In addition, it demonstrates how you can build Particle integrations to notification services, and to an external IoT platform for graphical dashboards. 
+This tutorial will show how you can perform anomaly detection of vibration in a moving conveyor belt with the Photon 2 and Edge Impulse. In addition, it demonstrates how you can build Particle integrations to notification services, and to an external IoT platform for graphical dashboards. 
+
+### How does it work?
+
+The end solution is demonstrated in the video below. The first half of the video shows that the conveyor belt vibrates within boundaries when transporting Particle products. In the second half of the video a non-Particle product is transported, and the belt starts to vibrate abnormally*, which is also visually indicated with a red status color! A video where you can also hear the belt struggling is on [YouTube](https://youtu.be/TvAK7TOfutE).
 
 ![](/images/demo_800x370.gif)
 
-# Bill of Materials
+* *The real reason for the anomaly was not the non-Particle product, but that I simulated a faulty gearbox by quickly changing the conveyor belt speed  back and forth*
+
+# Table of Contents
+
+This tutorial is covering quite a lot of ground, the main steps are:
+
+    1. Setting up the hardware
+        1.1 Bill of Materials
+
+2. Building a machine learning model in Edge Impulse
+3. Compiling the Particle firmware with Particle Workbench and Docker
+4. Setting up integrations to Pushover and Losant in the Particle console
+5. Building a dashboard in Losant
+
+# 1. Hardware
+## 1.1 Bill of Materials
 
 - [Photon 2](https://store.particle.io/products/photon-2), or any other Particle device with SPI 
+
+![](/images/Photon2.jpg)
+
+- Accelerometer [ADXL362 (GY362)](https://www.amazon.com/GY-362-ADXL362-Accelerometer-Interface-Arduino/dp/B07QS9LT8J), also part of the [Particle Edge ML Kit](https://docs.particle.io/reference/datasheets/accessories/edge-ml-kit/#adxl362-gy362-accelerometer-breakout)
+
+![](/images/adxl362-1.jpeg)
+
+- Solderless breadboard
+- Jumper wires
+- USB micro-B cable
+- Conveyor belt, or any other machinery you want to monitor, e.g. power drill, leaf blower, mower, fridge, vehicle, etc.
 
 | a | b | c |
 | --- | --- | --- |
 | 1 | 2 | 3 |
 
 
+## 1.2 Assembly
+
+
+Connect the Photon 2 and accelerometer like this:
+
+| Accelerometer| Color	| Photon 2	| Details | 
+| ------| ----- | ------| ------------------| 
+| INT1	| 	    | Any	| Any available GPIO if using interrupt 1 (optional)| 
+| INT2	| 	    | Any	| Any available GPIO if using interrupt 2 (optional)| 
+| CS	| Yellow| Any	| SPI Chip Select. Use any available GPIO (required)| 
+| SDO	| Green	| MISO	| SPI MISO (required)| 
+| SDI	| Blue	| MOSI	| SPI MOSI (required)| 
+| SCL	| Orange| SCK	| SPI SDK (required). Not I2C SCL (D1)!| 
+| GND	| Black	| GND	| Ground| 
+| VIN	| Red	| V3	| 3.3V power| 
+
+You can of course use wires of any color, as long as you wire them correctly! 
+
+Double check all connections, go grab a coffee, and check again before plugging in the USB-cable! The only smoke you want to see is from your coffee...
+A tip, the text on both the accelerometer and Photon 2 is quite small, why not take a close-up photo with your mobile and use that as reference.
+
+**Accelerometer wiring:**
+
+![](/images/accel_10_comp.jpg)
+
+**Photon 2 wiring:**
+
+![](/images/accel_20_comp.jpg)
+
 
 
 # Edge Impulse
+
+The earlier mentioned [tutorial](https://docs.edgeimpulse.com/docs/edge-ai-hardware/mcu/particle-photon-2) uses both an accelerometer as well as a microphone, but if you just want to connect the accelerometer you can connect like this:
+
+
+Important! You must register your P2 on your Particle account before continuing
+
+Plug your P2 into your computer. Head to https://docs.particle.io/device-setup/ and follow the instructions to register it.
 
 ## Get up and running ##
 
@@ -49,29 +119,6 @@ As collecting data with Particle products and Edge Impulse is very easy, I sugge
 When creating the impulse, I used a window size of 1000 ms and stride of 200 ms. These settings, as well as many others, might vary case by case. While my project was successful, there's still room for hardware or software improvements, as I sometimes got a false positive when the model detected an anomaly where I thought it shouldn't have. 
 
 ![](/images/ei_10.jpg)
-
-
-## Hardware Connections
-
-The earlier mentioned [tutorial](https://docs.edgeimpulse.com/docs/edge-ai-hardware/mcu/particle-photon-2) uses both an accelerometer as well as a microphone, but if you just want to connect the accelerometer you can connect like this:
-
-
-
-
-| Breakout	    | Color	| Connect To	| Details | 
-| ------| ----- | ------| ------------------| 
-| INT1	| 	    | Any	| Any available GPIO if using interrupt 1 (optional)| 
-| INT2	| 	    | Any	| Any available GPIO if using interrupt 2 (optional)| 
-| CS	| Yellow| Any	| SPI Chip Select. Use any available GPIO (required)| 
-| SDO	| Green	| MISO	| SPI MISO (required)| 
-| SDI	| Blue	| MOSI	| SPI MOSI (required)| 
-| SCL	| Orange| SCK	| SPI SDK (required). Not I2C SCL (D1)!| 
-| GND	| Black	| GND	| Ground| 
-| VIN	| Red	| V3	| 3.3V power| 
-
-![](/images/accel_10_comp.jpg)
-
-![](/images/accel_20_comp.jpg)
 
 
 
