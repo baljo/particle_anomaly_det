@@ -1,13 +1,12 @@
 # Predict Maintenance by Detecting Anomalies with Photon 2 and Edge Impulse
 
+![](/images/conv_035_comp.jpg)
+
 Imagine if your equipment could tell you when something is wrong before it actually breaks down—saving time, reducing costs, and preventing unnecessary part replacements. That’s the power of predictive maintenance, and this tutorial shows you how to harness it with real-time anomaly detection using the Particle Photon 2 and Edge Impulse.
 
 With traditional maintenance, schedules are set based on assumptions, such as servicing ship engines after a certain number of hours or cars after a set mileage. But sometimes, these assumptions lead to over-maintenance, replacing parts that don’t need it yet. What if instead, we could monitor equipment continuously and act only when something unusual happens—like a conveyor belt vibrating irregularly?
 
 In this hands-on guide, you’ll learn how to build an anomaly detection system that monitors the health of a conveyor belt using the Photon 2, accelerometer sensors, and machine learning models created with Edge Impulse. You’ll also set up real-time notifications and integrate your system into IoT dashboards to visualize and act on the data.
-
-![](/images/conv_035_comp.jpg)
-
 
 
 ## What is Anomaly Detection?
@@ -20,7 +19,7 @@ This tutorial will show how you can perform anomaly detection of vibration in a 
 
 ### How does it work?
 
-The end solution is demonstrated in the video below. The first half of the video shows that the conveyor belt vibrates within boundaries when transporting Particle products. In the second half of the video a non-Particle product is transported, and the belt starts to vibrate abnormally*, which is also visually indicated with a red status color! A video where you can also hear the belt struggling is on [YouTube](https://youtu.be/TvAK7TOfutE).
+The end solution is demonstrated in the video below. The first half of the video shows that the conveyor belt vibrates within boundaries when transporting Particle products. In the second half of the video a non-Particle product is transported, and the belt starts to vibrate abnormally*, which is also visually indicated with a red status color! A video where you can also hear the belt struggling, is on [YouTube](https://youtu.be/TvAK7TOfutE).
 
 ![](/images/demo_800x370.gif)
 
@@ -109,7 +108,7 @@ This step consists of collecting vibration data from a device you want to monito
 
 This [tutorial](https://docs.edgeimpulse.com/docs/edge-ai-hardware/mcu/particle-photon-2) is covering the basics of how to get machine learning running with Photon 2. If Edge Impulse is new to you, I suggest you start with following the tutorial steps, and to replicate this particular project, follow these [steps](https://docs.edgeimpulse.com/docs/tutorials/end-to-end-tutorials/continuous-motion-recognition). If you are eagerly waiting for your Particle Photon 2 or accelerometer to arrive at your door, feel free to use your [mobile phone](https://docs.edgeimpulse.com/docs/edge-ai-hardware/using-your-mobile-phone) in the meantime!
 
-Note: The above mentioned tutorial is also using a microphone, and the accelerometer is plugged onto the breadboard, but otherwise the concept is the same. 
+Note: The above mentioned tutorial is also using a microphone, and the accelerometer is plugged into the breadboard, but otherwise the concept is the same. 
 
 ## 2.2 Notes for this project ##
 
@@ -342,7 +341,7 @@ The current program running on your Photon is "just" running inference and showi
 
 # 5. Create a dashboard in Losant
 
-In this final step you'll learn the basics of how to create a workflow and a dashboard in Losant. This might at first glance seem a bit overwhelming, but once you get the first integration up and running from beginning to end, you'll find it fairly straightforward.
+In this final step you'll learn the basics of how to create a workflow and a dashboard in Losant. This might, at first glance seem a bit overwhelming, but once you get the first integration up and running from beginning to end, you'll find it fairly straightforward.
 
 
 
