@@ -471,4 +471,4 @@ Moreover, you explored how to integrate the solution with notification services 
 
 ### Kudos to *Particle* for developing fantastic hardware and for the whole eco-system, and *Edge Impulse* for developing a code-free platform for AI on the edge! 
 
-Feel free to clone my [Github repository](https://github.com/baljo/particle_anomaly_det)!
+Feel free to clone my [Github repository](https://github.com/baljo/particle_anomaly_det), or my public [Edge Impulse project](https://studio.edgeimpulse.com/studio/539532)! 
