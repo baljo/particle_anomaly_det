@@ -441,6 +441,46 @@ You can test the workflow - even without the hardware connected - from the Parti
 
 ![](/images/losant_150.jpg)
 
+## 5.4 Add a dashboard
 
+Finally it's time to create a dashboard! Do note that as this tutorial is more about Particle, Edge Impulse, and integrations to Pushover and Losant, it won't go into depth about Losant's features. You'll find lots of documentation on their [website](https://docs.losant.com/). 
+
+Having said (written?) that, this is the dashboard you'll learn how to create:
+
+![](/images/losant_170.jpg)
+
+
+- Start by creating a dashboard in Losant
+
+### 5.4.1 Create a time-series graph
+
+- Click on Add block, and select the Time Series Graph
+- Name the graph with something meaningful (hint: "Test" is not meaningful)
+- Select *Historical*
+- Select the device you've earlier created, as well as the attribute
+- Feel free to play around with the other settings
+- Save the block
+- Test the workflow as demonstrated earlier, this way you can check that also the graph is working
+
+![](/images/losant_160.jpg)
+
+### 5.4.2 Create a visual showing status with colors
+
+The upper right block is showing green color when the anomaly score is 2.5 or less, when over 2.5 it turns red.
+
+- Click once again on Add block, and select the Indicator block
+- The principle is similar as with the previous block, but this time you should select *Live Stream* instead of *Historical*. The reason for this is that the indicator in this case is a snapshot of the current status.
+- Add this as expression `{{value-0}} > 2.5`. I've used the same value as in the program running on Photon, but they don't have to be identical. Remember that the Photon program immediately notifies of an anomaly, but also regularly sends the current vibration status.
+- Select colors as per your own preferences. 
+
+![](/images/losant_180.jpg)
+
+### 5.4.3 Add a gauge showing vibration numerically
+
+This is the lower right block, showing vibration status with numbers.
+
+- Add a Gauge block, select *Live Stream*, otherwise similar steps as before.  
+
+# Conclusions
 
 [Github repository](https://github.com/baljo/particle_anomaly_det)
