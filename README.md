@@ -274,7 +274,7 @@ This was the first time I used Losant, so it took me some time to understand how
 Creating a webhook is done similarly as for the Pushover service, the only differences are:
 - Paste in the code below 
 - Replace the `URL` with the one you copied from the Losant webhook
-- Replace the `api_key` with the API token you created in Losant (You did store it?)
+- Replace the `api_key` with the API token you created in Losant (You did store it, didn't you?)
 
 **Code to insert into the `Custom template:`**
 ```
