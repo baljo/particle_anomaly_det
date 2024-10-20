@@ -166,7 +166,7 @@ To verify the concept built so far works, you should test it by typing this in t
 
 # 4. Set up integrations to Pushover and Losant in the Particle console
 
-This chapter covers how you can take the concept a bit further and get notified of anomalies through an external service, like Pushover or why not Twilio. You can select to implement just one of them, or both.
+This chapter covers how you can take the concept a bit further and get notified of anomalies through an external service, like e.g. Pushover. It also builds up the foundation for integration to the Losant IoT platform. You can select to implement just one of them, or both.
 In addition, you'll learn how to update the program running on your Photon so it publishes detected anomalies as well as the current vibration status.
 
 ## 4.1 Pushover
@@ -176,7 +176,7 @@ In addition, you'll learn how to update the program running on your Photon so it
 - Create an account at Pushover (or similar service, e.g. Twilio)
   - Create an application in Pushover
   - Take a note of the User Key and API token
-- Also install the Pushover app on your mobile device to get notifications
+- Also install the Pushover app on your mobile device to be able to receive notifications
 
 
 **User key field in Pushover:**
@@ -288,10 +288,10 @@ Creating a webhook is done similarly as for the Pushover service, the only diffe
 
 ## 4.3 Publish anomalies detected through the Photon program  
 
-The current program running on your Photon is "just" running inference and showing the results in the terminal window. To be able to get notified through Pushover, and to see the current status in Losant, you also need to publish anomalies from the program running on your Photon 2.
+The current program running on your Photon 2 is "just" running inference and showing the results in the terminal window. To be able to get notified through Pushover, and to see the current status in Losant, you also need to publish anomalies from the Photon program.
 
 - Copy the program I created from [here](https://github.com/baljo/particle_anomaly_det/blob/main/src/main.cpp)
-- Change the line `#include <PhotAD2_inferencing.h>` to include the header file from the program you compiled earlier.from
+- Change the line `#include <PhotAD2_inferencing.h>` to include the header file from the program you compiled earlier
 
 ```
 ...
@@ -305,11 +305,11 @@ The current program running on your Photon is "just" running inference and showi
 ```
 
 
-- Around line 184 you'll find the code for anomaly reporting, see the code snippet below
+- Around line 184 you'll find the code for anomaly reporting, see the code snippet further below
 - This line is publishing anomalies to Pushover: `Particle.publish("Anomaly score: ", String(result.anomaly), PRIVATE);` 
 - This line is publishing anomalies to Losant: `Particle.publish("losant_ad_score:", String(result.anomaly), PRIVATE);` 
-- As you can see, **immediate** publishing is done when the anomaly score is greater than 2.5. This threshold value depends on your equipment, on the ML model you built, on the data gathered, and on what vibration you consider to be abnormal. In my case, I did not have a controlled environment (doors slamming, cat on the table(!), etc.), so I got a few false positives.
-- The user LED on your Photon 2 is also lit up when the anomaly score is over the threshold with this line `digitalWrite(D7, HIGH);`
+- As you can see, **immediate** publishing is done when the anomaly score is greater than 2.5. This threshold value depends on your equipment, on the ML model you built, on the data gathered, and on what vibration you consider to be abnormal. In my case, I did not have a controlled environment (doors slamming, cat on the desk(!), etc.), so I got a few false positives.
+- The user LED on your Photon 2 is also lit up when the anomaly score is over the threshold, see this line `digitalWrite(D7, HIGH);`
 - In addition, I wanted to monitor the vibration readings in Losant on a regular basis, basically every 10 seconds publishing the current anomaly score. This is accomplished in this section ` if ( currentTime - lastPublishTime >= publishInterval) {`
 - Compile and flash the firmware as previously
 - If everything is set up correctly, your mobile should get notifications through Pushover when you are slightly moving the accelerometer!
@@ -362,7 +362,7 @@ To be able to use data from different devices, you need to create them in Losant
 
 ## 5.2 Create a workflow
 
-This picture shows an overview of the steps you'll need to take.
+This picture shows an overview of the steps you'll need to take to create a workflow, detailed steps follow below.
 
 ![](/images/losant_030_cropped.jpg)
 
@@ -413,7 +413,7 @@ This picture shows an overview of the steps you'll need to take.
 You can test the workflow - even without the hardware connected - from the Particle console. 
 
 - Open up your Particle console
-- Select the Losant integration, click on the `Test` button and type in a value which represents the anomaly score, e.g. 9.9
+- Select the Losant integration, click on the `Test` button, and type in a value which represents the anomaly score, e.g. 9.9
 
 ![](/images/Particle_010.jpg)
 
