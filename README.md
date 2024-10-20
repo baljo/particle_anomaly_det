@@ -1,6 +1,8 @@
-# Detecting Anomalies in a Conveyor Belt with Photon 2 and Edge Impulse
+# Predict Maintenance by Detecting Anomalies with Photon 2 and Edge Impulse
 
-![](/images/conv_010.jpg)
+
+
+![](/images/conv_035_comp.jpg)
 
 # Problem Statement
 
@@ -30,6 +32,7 @@ As this tutorial is covering quite a lot of ground, the below table of contents 
         1.1 Bill of Materials
         1.2 Assembly
         1.3 Activate the Photon 2
+        1.4 Optional: 3D-print a case
 
     2. Building a machine learning model in Edge Impulse
         2.1 Get up and running
@@ -40,7 +43,8 @@ As this tutorial is covering quite a lot of ground, the below table of contents 
         3.1 Install the Particle Workbench
         3.2 Import and compile the application
         3.3 Install and compile using Docker
-        
+        3.4 Test the compiled application
+
     4. Setting up integrations to Pushover and Losant in the Particle console
     5. Building a dashboard in Losant
 
@@ -58,7 +62,7 @@ As this tutorial is covering quite a lot of ground, the below table of contents 
 - Solderless breadboard
 - Jumper wires
 - USB micro-B cable
-- Conveyor belt, or any other machinery you want to monitor, e.g. power drill, leaf blower, mower, fridge, vehicle, etc.
+- Conveyor belt, or any other machinery you want to monitor, e.g. power drill, leaf blower, mower, fridge, vehicle, robot vacuum cleaner, etc.
 
 | a | b | c |
 | --- | --- | --- |
@@ -99,6 +103,16 @@ A tip, the text on both the accelerometer and Photon 2 is quite small, why not t
 **Important!** You must register your P2 on your Particle account before continuing
 
 Plug your P2 into your computer. Head to https://docs.particle.io/device-setup/ and follow the instructions to register it.
+
+## 1.4 Optional: 3D-print a case
+
+This step is optional, but if you are going to attach the accelerometer to any equipment, you need to protect the electronic somehow.
+
+
+
+
+![](/images/3D_case_010.jpg)
+
 
 # 2. Building a machine learning model in Edge Impulse
 
@@ -154,9 +168,12 @@ Follow these [steps](https://docs.edgeimpulse.com/docs/run-inference/running-you
 
 ## 3.3 Install and compile using Docker
 
-Follow these [steps](https://docs.particle.io/getting-started/machine-learning/doorbell/#building-using-docker).
+- Follow these [steps](https://docs.particle.io/getting-started/machine-learning/doorbell/#building-using-docker).
+    - As an example, after above steps were completed, this is  the command I used in the terminal window: `docker run --name=edge-compile4 -v C:\Users\...\Dropbox\Github\Particle\particle_anomaly_det:/input -v C:\Users\...\Dropbox\Github\Particle\particle_anomaly_det:/output -e PLATFORM_ID=32 particle/buildpack-particle-firmware:5.9.0-p2`
+- Flash the built firmware with this command in the terminal window (shortcut key Ctrl+J): `particle flash --local firmware.bin`.
 
-As an example of the command I used in the terminal window after above steps were completed: `docker run --name=edge-compile4 -v C:\Users\...\Dropbox\Github\Particle\particle_anomaly_det:/input -v C:\Users\...\Dropbox\Github\Particle\particle_anomaly_det:/output -e PLATFORM_ID=32 particle/buildpack-particle-firmware:5.9.0-p2`
+## 3.4 Test the compiled application
 
+To verify the concept built so far works, you should test it by typing this in the terminal window: `particle serial monitor --follow`. This should show the output of your ML model as running on the Photon 2.
 
 
