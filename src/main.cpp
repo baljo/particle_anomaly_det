@@ -22,8 +22,6 @@
 // This must come after Particle.h
 #include <PhotAD2_inferencing.h>
 
-//#include <particle-p2-gestures_inferencing.h>
-
 SYSTEM_THREAD(ENABLED);
 
 SerialLogHandler logHandler(LOG_LEVEL_ERROR);

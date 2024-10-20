@@ -120,7 +120,7 @@ I printed with white TPU, and a print quality of 100 micron (0.1 mm). To attach 
 ![](/images/3D_case_010.jpg)
 
 
-# 2. Building a machine learning model in Edge Impulse
+# 2. Build a machine learning model in Edge Impulse
 
 This step consists of collecting vibration data from a device you want to monitor, build a machine learning (ML) model, and finally deploying it to the edge device of your choice, in this case Particle Photon 2. 
 
@@ -162,7 +162,7 @@ Unless you are a seasoned C/C++-programmer, you should choose the Particle libra
 ![](/images/ei_15.jpg)
 
 
-# 3. Compiling the Particle firmware with Particle Workbench and Docker
+# 3. Compile the Particle firmware with Particle Workbench and Docker
 
 ## 3.1 Install the Particle Workbench
 
@@ -183,9 +183,10 @@ Follow these [steps](https://docs.edgeimpulse.com/docs/run-inference/running-you
 To verify the concept built so far works, you should test it by typing this in the terminal window: `particle serial monitor --follow`. This should show the output of your ML model as running on the Photon 2.
 
 
-# 4. Setting up integrations to Pushover and Losant in the Particle console
+# 4. Set up integrations to Pushover and Losant in the Particle console
 
 This chapter covers how you can take the concept a bit further and get notified of anomalies through an external service, like Pushover or why not Twilio. You can select to implement just one of them, or both.
+In addition, you'll learn how to update the program running on your Photon so it publishes detected anomalies as well as the current vibration status.
 
 ## 4.1 Pushover
 
@@ -304,11 +305,96 @@ Creating a webhook is done similarly as for the Pushover service, the only diffe
 ![](/images/Losant_webhook.jpg)
 
 
+## 4.3 Publish anomalies detected through the Photon program  
+
+The current program running on your Photon is "just" running inference and showing the results in the terminal window. To be able to get notified through Pushover, and to see the current status in Losant, you also need to publish anomalies from the program running on your Photon 2.
+
+- Copy the program I created from [here](https://github.com/baljo/particle_anomaly_det/blob/main/src/main.cpp)
+- Change the line `#include <PhotAD2_inferencing.h>` to include the header file from the program you compiled earlier.from
+
+```
+...
+/* Include ----------------------------------------------------------------- */
+#include "Particle.h"
+#include "ADXL362DMA.h"
+
+// This must come after Particle.h
+#include <PhotAD2_inferencing.h>
+...
+```
+
+
+- Around line 184 you'll find the code for anomaly reporting, see the code snippet below
+- This line is publishing anomalies to Pushover: `Particle.publish("Anomaly score: ", String(result.anomaly), PRIVATE);` 
+- This line is publishing anomalies to Losant: `Particle.publish("losant_ad_score:", String(result.anomaly), PRIVATE);` 
+- As you can see, **immediate** publishing is done when the anomaly score is greater than 2.5. This threshold value depends on your equipment, on the ML model you built, on the data gathered, and on what vibration you consider to be abnormal. In my case, I did not have a controlled environment (doors slamming, cat on the table(!), etc.), so I got a few false positives.
+- The user LED on your Photon 2 is also lit up when the anomaly score is over the threshold with this line `digitalWrite(D7, HIGH);`
+- In addition, I wanted to monitor the vibration readings in Losant on a regular basis, basically every 10 seconds publishing the current anomaly score. This is accomplished in this section ` if ( currentTime - lastPublishTime >= publishInterval) {`
+- Compile and flash the firmware as previously
+- If everything is set up correctly, your mobile should get notifications through Pushover when you are slightly moving the accelerometer!
+
+```
+...
+    // Print anomaly result (if it exists)
+#if EI_CLASSIFIER_HAS_ANOMALY == 1
+    ei_printf("Anomaly prediction: %.3f\r\n", result.anomaly);
+
+    unsigned long currentTime = millis();
+    if ( currentTime - lastPublishTime >= publishInterval) {
+        Particle.publish("losant_ad_score:", String(result.anomaly), PRIVATE);
+        lastPublishTime = currentTime;
+    }
+
+    if (result.anomaly > 2.5) {
+        Particle.publish("Anomaly score: ", String(result.anomaly), PRIVATE);
+        Particle.publish("losant_ad_score:", String(result.anomaly), PRIVATE);
+        digitalWrite(D7, HIGH);
+    }
+    else {
+        digitalWrite(D7, LOW);
+    }
+
+#endif
+...
+```
+
+
+# 5. Create a dashboard in Losant
+
+In this final step you'll learn the basics of how to create a workflow and a dashboard in Losant. This might at first glance seem a bit overwhelming, but once you get the first integration up and running from beginning to end, you'll find it fairly straightforward.
+
+![](/images/losant_030.jpg)
+
+## 5.1 Create a workflow
+
+- Select the earlier created application, and create a new **workflow**
+
+![](/images/losant_040.jpg)
+
+- Add a **webhook**
+
+![](/images/losant_045.jpg)
+
+- Select the **webhook you created** in the previous chapter
+
+![](/images/losant_050_comp.jpg)
+
+- Add a **function**
+
+![](/images/losant_060.jpg)
+
+- Add the following **Javascript code** to the function window. This is not strictly necessary, but the code demonstrates how you can split up text and values separated by the colon sign.
+
+![](/images/losant_070.jpg)
+
+- Add **Device: Get**
+
+![](/images/losant_080.jpg)
+
+- **Configure** the node like this
+
+![](/images/losant_090.jpg)
 
 
 
-
-
-
-
-# 5. Building a dashboard in Losant
+[Github repository](https://github.com/baljo/particle_anomaly_det)
