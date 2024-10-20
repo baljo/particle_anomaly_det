@@ -462,6 +462,12 @@ This is the lower right block, showing vibration status with numbers.
 
 - Add a Gauge block, select *Live Stream*, otherwise similar steps as before.  
 
+Does your dashboard look similar as mine? Or even better, if that's possible?
+
+![](/images/losant_170.jpg)
+
+
+
 
 # Conclusions
 
