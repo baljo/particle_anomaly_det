@@ -107,9 +107,15 @@ Plug your P2 into your computer. Head to https://docs.particle.io/device-setup/ 
 ## 1.4 Optional: 3D-print a case
 
 This step is optional, but if you are going to attach the accelerometer to any equipment, you need to protect the electronic somehow.
+If you want to 3D-print a case and a lid, feel free to use the below STL-files:
+
+- [Case](https://github.com/baljo/particle_anomaly_det/blob/main/images/Accel_case.stl)
+- [Lid](https://github.com/baljo/particle_anomaly_det/blob/main/images/Accel_LID.stl)
+
+I printed with white TPU, and print quality 100 micron (0.1 mm). To attach the case to the conveyor belt, I used double-sided tape.
 
 
-
+![](/images/conv_040_comp.jpg)
 
 ![](/images/3D_case_010.jpg)
 
