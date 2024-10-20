@@ -112,7 +112,7 @@ If you want to 3D-print a case and a lid, feel free to use the below STL-files:
 - [Case](https://github.com/baljo/particle_anomaly_det/blob/main/images/Accel_case.stl)
 - [Lid](https://github.com/baljo/particle_anomaly_det/blob/main/images/Accel_LID.stl)
 
-I printed with white TPU, and print quality 100 micron (0.1 mm). To attach the case to the conveyor belt, I used double-sided tape.
+I printed with white TPU, and a print quality of 100 micron (0.1 mm). To attach the case to the conveyor belt, I used double-sided tape.
 
 
 ![](/images/conv_040_comp.jpg)
@@ -183,3 +183,132 @@ Follow these [steps](https://docs.edgeimpulse.com/docs/run-inference/running-you
 To verify the concept built so far works, you should test it by typing this in the terminal window: `particle serial monitor --follow`. This should show the output of your ML model as running on the Photon 2.
 
 
+# 4. Setting up integrations to Pushover and Losant in the Particle console
+
+This chapter covers how you can take the concept a bit further and get notified of anomalies through an external service, like Pushover or why not Twilio. You can select to implement just one of them, or both.
+
+## 4.1 Pushover
+
+### 4.1.1 Set up Pushover
+
+- Create an account at Pushover (or similar service, e.g. Twilio)
+  - Create an application in Pushover
+  - Take a note of the User Key and API token
+- Also install the Pushover app on your mobile device to get notifications
+
+
+**User key field in Pushover:**
+
+![](/images/Pushover_user_key.jpg)
+
+**API Token/key in Pushover:**
+
+![](/images/Pushover_API_key.jpg)
+
+
+
+## 4.1.2 Set up a Particle Webhook to Pushover
+
+- In the Particle console, Go to `Integrations`
+- Add a new integration
+- Scroll down and select `Custom Webhook`
+- Select ´Custom template`
+- Paste in the code below
+- Replace the `token` and `user` in the code with the ones from your chosen service 
+- `event` - in this case *"Anomaly score: "* - should be same event as you are publishing from your code
+- Test the integration, if everything is set up correctly, you should get a notification on your mobile device
+  - If you use Pushover, the notification on your mobile is received through the Pushover service, not as a SMS.
+
+
+
+**Code to insert into the `Custom template:`**
+```
+{
+    "name": "Anomaly score: ",
+    "event": "Anomaly score: ",
+    "responseTopic": "{{PARTICLE_DEVICE_ID}}/hook-response/{{PARTICLE_EVENT_NAME}}",
+    "disabled": true,
+    "template": "webhook",
+    "url": "https://api.pushover.net/1/messages.json",
+    "requestType": "POST",
+    "noDefaults": true,
+    "rejectUnauthorized": true,
+    "unchunked": false,
+    "dataUrlResponseEvent": false,
+    "form": {
+        "token": "API-key to selected service",
+        "user": "User key to selected service",
+        "title": "Anomaly score: ",
+        "message": "{{{PARTICLE_EVENT_VALUE}}}"
+    }
+}
+```
+
+**Screenshot of the same:**
+
+![](/images/Pushover_webhook.jpg)
+
+## 4.2 Losant
+
+This was the first time I used Losant, so it took me some time to understand how things connect. As guidance I used [this slighly outdated tutorial](https://www.losant.com/blog/how-to-integrate-particle-with-losant) from Losant.
+
+### 4.2.1 Set up Losant
+
+- Create an account at Losant
+- Add a user API token, and **store it in a secure place** as you can't check it later. If you've misplaced it, you need to create a new one!  
+
+![](/images/losant_010.jpg)
+
+- Create an application, in my case I named it Conveyor status.
+
+![](/images/losant_015.jpg)
+
+- Inside the recently created application, create a webhook
+- Copy the URL as you'll need it soon
+
+![](/images/losant_020.jpg)
+
+
+### 4.2.2 Set up a Particle Webhook to Losant
+
+Creating a webhook is done similarly as for the Pushover service, the only differences are:
+- Paste in the code below 
+- Replace the `URL` with the one you copied from the Losant webhook
+- Replace the `api_key` with the API token you created in Losant (You did store it?)
+
+**Code to insert into the `Custom template:`**
+```
+{
+    "name": "Conveyor belt anomalies",
+    "event": "losant_ad_score",
+    "responseTopic": "{{PARTICLE_DEVICE_ID}}/hook-response/{{PARTICLE_EVENT_NAME}}",
+    "disabled": false,
+    "template": "losant",
+    "url": "https://triggers.losant.com/webhooks/Eu3................",
+    "requestType": "POST",
+    "noDefaults": false,
+    "rejectUnauthorized": true,
+    "unchunked": false,
+    "dataUrlResponseEvent": false,
+    "json": true,
+    "query": {
+        "api_key": "Insert your very long Losant API-key here",
+        "data": "{{{PARTICLE_EVENT_VALUE}}}"
+    }
+}
+```
+
+
+**Screenshot of the same:**
+
+![](/images/Losant_webhook.jpg)
+
+
+
+
+
+
+
+
+
+# 5. Building a dashboard in Losant
