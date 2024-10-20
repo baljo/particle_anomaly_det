@@ -469,6 +469,6 @@ In this tutorial, you’ve learned how to build a predictive maintenance solutio
 
 Moreover, you explored how to integrate the solution with notification services like Pushover and IoT platforms like Losant, providing you with immediate alerts and visual dashboards for monitoring. With this setup, you now have the foundation to scale this predictive maintenance solution to other equipment, allowing you to detect issues early and address them proactively.
 
-### Kudos to *Particle* for developing fantastic hardware and for the whole eco-system, and *Edge Impulse* for developing a code-free platform for AI on the edge! 
+### Kudos to *Particle* for developing fantastic hardware and for the whole eco-system, and to *Edge Impulse* for developing a code-free platform for AI at the edge! 
 
 Feel free to clone my [Github repository](https://github.com/baljo/particle_anomaly_det), or my public [Edge Impulse project](https://studio.edgeimpulse.com/studio/539532)! 
