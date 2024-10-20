@@ -462,7 +462,6 @@ This is the lower right block, showing vibration status with numbers.
 
 - Add a Gauge block, select *Live Stream*, otherwise similar steps as before.  
 
-# Conclusions
 
 # Conclusions
 
@@ -470,4 +469,6 @@ In this tutorial, you’ve learned how to build a predictive maintenance solutio
 
 Moreover, you explored how to integrate the solution with notification services like Pushover and IoT platforms like Losant, providing you with immediate alerts and visual dashboards for monitoring. With this setup, you now have the foundation to scale this predictive maintenance solution to other equipment, allowing you to detect issues early and address them proactively.
 
-[Github repository](https://github.com/baljo/particle_anomaly_det)
+### Kudos to *Particle* for developing fantastic hardware and for the whole eco-system, and *Edge Impulse* for developing a code-free platform for AI on the edge! 
+
+Feel free to clone my [Github repository](https://github.com/baljo/particle_anomaly_det)!
