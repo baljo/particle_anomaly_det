@@ -47,6 +47,7 @@ As this tutorial is covering quite a lot of ground, the below table of contents 
 - Jumper wires
 - USB micro-B cable
 - Conveyor belt, or any other machinery you want to monitor, e.g. power drill, leaf blower, mower, fridge, vehicle, robot vacuum cleaner, etc.
+    - You can also implement a [fall detection system](https://docs.edgeimpulse.com/experts/accelerometer-and-activity-projects/arduino-kway-fall-detection), similarly as did earlier with Edge Impulse's anomaly detection.
 
 
 ## 1.2 Assembly
