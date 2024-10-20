@@ -363,9 +363,27 @@ The current program running on your Photon is "just" running inference and showi
 
 In this final step you'll learn the basics of how to create a workflow and a dashboard in Losant. This might at first glance seem a bit overwhelming, but once you get the first integration up and running from beginning to end, you'll find it fairly straightforward.
 
-![](/images/losant_030.jpg)
 
-## 5.1 Create a workflow
+
+## 5.1 Create a device
+
+To be able to use data from different devices, you need to create them in Losant.
+
+- Add a new device (standalone), add `particle_device_id`as key, and paste the device id of your Photon 2 from the Particle console to the value field.
+
+![](/images/losant_100_comp.jpg)
+
+- Go to the Attributes tab, click on the green Add button, and add a value attribute like this:
+
+![](/images/losant_110_comp.jpg)
+
+
+
+## 5.2 Create a workflow
+
+This picture shows an overview of the steps you'll need to take.
+
+![](/images/losant_030_cropped.jpg)
 
 - Select the earlier created application, and create a new **workflow**
 
@@ -394,6 +412,34 @@ In this final step you'll learn the basics of how to create a workflow and a das
 - **Configure** the node like this
 
 ![](/images/losant_090.jpg)
+
+- Add **Device: State**
+
+![](/images/losant_120.jpg)
+
+- Select the **device you created earlier** and **insert `{{ data.value  }}`** into the value field
+
+![](/images/losant_130.jpg)
+
+
+- Finally, add a **debug** node. This comes in very handy when you want to troubleshoot the integration
+- **Save** the workflow
+
+![](/images/losant_140.jpg)
+
+## 5.3 Test the workflow
+
+You can test the workflow - even without the hardware connected - from the Particle console. 
+
+- Open up your Particle console
+- Select the Losant integration, click on the `Test` button and type in a value which represents the anomaly score, e.g. 9.9
+
+![](/images/Particle_010.jpg)
+
+- In the Losant workflow, click on the Debug icon as in the picture below. Here the same 9.9 turned up, showing that the integration works!
+
+
+![](/images/losant_150.jpg)
 
 
 
