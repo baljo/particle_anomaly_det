@@ -1,12 +1,14 @@
 # Predict Maintenance by Detecting Anomalies with Photon 2 and Edge Impulse
 
+Imagine if your equipment could tell you when something is wrong before it actually breaks down—saving time, reducing costs, and preventing unnecessary part replacements. That’s the power of predictive maintenance, and this tutorial shows you how to harness it with real-time anomaly detection using the Particle Photon 2 and Edge Impulse.
 
+With traditional maintenance, schedules are set based on assumptions, such as servicing ship engines after a certain number of hours or cars after a set mileage. But sometimes, these assumptions lead to over-maintenance, replacing parts that don’t need it yet. What if instead, we could monitor equipment continuously and act only when something unusual happens—like a conveyor belt vibrating irregularly?
+
+In this hands-on guide, you’ll learn how to build an anomaly detection system that monitors the health of a conveyor belt using the Photon 2, accelerometer sensors, and machine learning models created with Edge Impulse. You’ll also set up real-time notifications and integrate your system into IoT dashboards to visualize and act on the data.
 
 ![](/images/conv_035_comp.jpg)
 
-# Problem Statement
 
-**????????????????**
 
 ## What is Anomaly Detection?
 
@@ -28,25 +30,8 @@ The end solution is demonstrated in the video below. The first half of the video
 
 As this tutorial is covering quite a lot of ground, the below table of contents should make it easier to grasp:
 
-    1. Setting up the hardware
-        1.1 Bill of Materials
-        1.2 Assembly
-        1.3 Activate the Photon 2
-        1.4 Optional: 3D-print a case
+![](/images/TOC.png)
 
-    2. Building a machine learning model in Edge Impulse
-        2.1 Get up and running
-        2.2 Notes for this project
-        2.3 Deploy a Particle library
-
-    3. Compiling the Particle firmware with Particle Workbench and Docker
-        3.1 Install the Particle Workbench
-        3.2 Import and compile the application
-        3.3 Install and compile using Docker
-        3.4 Test the compiled application
-
-    4. Setting up integrations to Pushover and Losant in the Particle console
-    5. Building a dashboard in Losant
 
 # 1. Hardware
 ## 1.1 Bill of Materials
@@ -63,10 +48,6 @@ As this tutorial is covering quite a lot of ground, the below table of contents 
 - Jumper wires
 - USB micro-B cable
 - Conveyor belt, or any other machinery you want to monitor, e.g. power drill, leaf blower, mower, fridge, vehicle, robot vacuum cleaner, etc.
-
-| a | b | c |
-| --- | --- | --- |
-| 1 | 2 | 3 |
 
 
 ## 1.2 Assembly
@@ -482,5 +463,11 @@ This is the lower right block, showing vibration status with numbers.
 - Add a Gauge block, select *Live Stream*, otherwise similar steps as before.  
 
 # Conclusions
+
+# Conclusions
+
+In this tutorial, you’ve learned how to build a predictive maintenance solution using Particle Photon 2, accelerometer sensors, and machine learning models with Edge Impulse. By detecting anomalies in real time, you can monitor equipment such as conveyor belts and trigger actions when something abnormal occurs. This approach can prevent expensive breakdowns, reduce unnecessary maintenance, and extend the lifespan of machinery.
+
+Moreover, you explored how to integrate the solution with notification services like Pushover and IoT platforms like Losant, providing you with immediate alerts and visual dashboards for monitoring. With this setup, you now have the foundation to scale this predictive maintenance solution to other equipment, allowing you to detect issues early and address them proactively.
 
 [Github repository](https://github.com/baljo/particle_anomaly_det)
